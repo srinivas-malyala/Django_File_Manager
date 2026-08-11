@@ -4,15 +4,6 @@ A production-ready, security-focused multi-user file management application buil
 
 The completed implementation includes authentication, private uploads, search and filtering, safe previews, batch operations, password reset, administrative statistics, health checks, structured logging, PostgreSQL support, Gunicorn, and a non-root Docker image.
 
-## Status
-
-- Django 5.2 and Django REST Framework 3.16
-- 222 automated tests
-- 99% application-code coverage
-- SQLite development configuration
-- PostgreSQL production configuration through `DATABASE_URL`
-- Warning-clean production `check --deploy` profile
-- Provider-neutral deployment and Docker configuration
 
 ## Features
 
@@ -405,18 +396,5 @@ Production requires PostgreSQL, durable private media storage, SMTP for password
 └── SECURITY_REVIEW.md        Security findings and controls
 ```
 
-## Contributing
 
-Before opening a change:
 
-1. Keep all file access owner-scoped.
-2. Add migrations for model changes and verify there is no unintended migration drift.
-3. Add positive and important negative-path tests.
-4. Run the full test, coverage, formatting, and Django checks above.
-5. Never commit `.env`, SQLite databases, uploaded files, credentials, tokens, or generated static output.
-
-Security issues should be disclosed privately to the repository owner rather than posted with exploit details in a public issue.
-
-## Specification
-
-The implementation was built incrementally from [Enterprise File Manager Console.md](Enterprise%20File%20Manager%20Console.md). The application now includes all phases through production readiness.

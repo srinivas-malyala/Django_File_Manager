@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+
+{% block title %}My Files | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <div class="page-eyebrow">Private collection</div>
+      <h1 class="page-title">My files</h1>
+      <p class="page-subtitle">Browse, preview, download, or manage items owned by your account.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-secondary" href="{% url 'user_console:file_advanced' %}">Search and filter</a>
+      <a class="btn btn-primary" href="{% url 'user_console:file_upload' %}">Upload file</a>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'user_console:file_batch' %}">
+    {% csrf_token %}
+    <div class="batch-toolbar">
+      <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="delete">Delete selected</button>
+        <button class="btn btn-sm btn-outline-primary" type="submit" name="action" value="download">Download selected</button>
+      </div>
+      <div class="btn-group" role="group" aria-label="File display mode">
+        <a class="btn btn-sm btn-outline-primary{% if view_mode == 'list' %} active{% endif %}" href="?{{ list_view_query }}">List</a>
+        <a class="btn btn-sm btn-outline-primary{% if view_mode == 'grid' %} active{% endif %}" href="?{{ grid_view_query }}">Grid</a>
+      </div>
+    </div>
+    {% include "components/file_collection.html" %}
+  </form>
+  {% include "components/file_pagination.html" %}
+{% endblock %}

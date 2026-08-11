@@ -1,0 +1,45 @@
+{% extends "base/base.html" %}
+
+{% block title %}Preview {{ file.original_filename }} | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <div class="page-eyebrow">Secure preview</div>
+      <h1 class="page-title text-break">{{ file.original_filename }}</h1>
+      <p class="page-subtitle">Preview supported content without exposing its storage path.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-outline-secondary" href="{% url 'user_console:file_detail' file.id %}">Details</a>
+      <a class="btn btn-primary" href="{% url 'user_console:file_download' file.id %}">Download</a>
+    </div>
+  </div>
+
+  {% if preview_error %}
+    <div class="alert alert-danger">{{ preview_error }}</div>
+  {% elif preview_kind == "image" %}
+    <div class="card card-body text-center">
+      <img class="img-fluid mx-auto" src="{% url 'user_console:file_preview_content' file.id %}" alt="Preview of {{ file.original_filename }}">
+    </div>
+  {% elif preview_kind == "pdf" %}
+    <div class="card overflow-hidden">
+      <iframe
+        title="PDF preview of {{ file.original_filename }}"
+        src="{% url 'user_console:file_preview_content' file.id %}"
+        sandbox
+        style="width: 100%; height: 70vh; border: 0"
+      ></iframe>
+    </div>
+  {% elif preview_kind == "text" %}
+    {% if preview_truncated %}
+      <div class="alert alert-warning">Preview truncated to the first 1 MiB.</div>
+    {% endif %}
+    <div class="card">
+      <pre class="card-body mb-0 overflow-auto" style="max-height: 70vh; white-space: pre-wrap">{{ preview_content }}</pre>
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      Preview unavailable for this file type. Download the file to inspect it.
+    </div>
+  {% endif %}
+{% endblock %}

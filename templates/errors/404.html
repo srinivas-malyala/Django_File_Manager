@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+
+{% block title %}Page not found | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="error-state card">
+    <div class="card-body text-center">
+    <div class="error-code">404</div>
+    <h1 class="display-6">Page not found</h1>
+    <p class="text-body-secondary">The page you requested is unavailable.</p>
+    <a class="btn btn-primary" href="{% url 'core:index' %}">Return home</a>
+    </div>
+  </div>
+{% endblock %}

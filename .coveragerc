@@ -1,0 +1,7 @@
+[run]
+omit =
+    */migrations/*
+
+[report]
+show_missing = True
+skip_covered = False

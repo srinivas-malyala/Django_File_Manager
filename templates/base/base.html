@@ -1,0 +1,68 @@
+{% load static %}
+{% get_static_prefix as static_prefix %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Enterprise File Manager{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    >
+    <link href="{{ static_prefix }}console/css/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="app-navbar" aria-label="Primary navigation">
+      <div class="container app-navbar-inner">
+        {% if user.is_authenticated %}
+          <a class="app-brand" href="{% url 'user_console:dashboard' %}">
+        {% else %}
+          <a class="app-brand" href="{% url 'core:index' %}">
+        {% endif %}
+            <span class="app-brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img"><path d="M3 6.75A2.75 2.75 0 0 1 5.75 4h4.19c.73 0 1.43.29 1.94.81l1.38 1.38c.14.14.33.22.53.22h4.46A2.75 2.75 0 0 1 21 9.16v8.09A2.75 2.75 0 0 1 18.25 20H5.75A2.75 2.75 0 0 1 3 17.25V6.75Z"/></svg>
+            </span>
+            <span>File Manager</span>
+          </a>
+        <div class="app-nav-links ms-auto">
+          {% if user.is_authenticated %}
+            <a class="app-nav-link{% if request.resolver_match.url_name == 'dashboard' %} active{% endif %}" href="{% url 'user_console:dashboard' %}">Dashboard</a>
+            <a class="app-nav-link{% if 'file' in request.resolver_match.url_name %} active{% endif %}" href="{% url 'user_console:file_list' %}">Files</a>
+            <a class="app-nav-link{% if request.resolver_match.url_name == 'profile' %} active{% endif %}" href="{% url 'user_console:profile' %}">Profile</a>
+            <a class="app-nav-link{% if 'support' in request.resolver_match.url_name %} active{% endif %}" href="{% url 'user_console:support_help' %}">Help</a>
+            <span class="app-user-chip" title="Signed in as {{ user.username }}">
+              <span class="app-avatar" aria-hidden="true">{{ user.username|first|upper }}</span>
+              <span class="app-user-name">{{ user.username }}</span>
+            </span>
+            <form class="mb-0" method="post" action="{% url 'accounts:logout' %}">
+              {% csrf_token %}
+              <button class="btn btn-sm btn-outline-secondary" type="submit">Sign out</button>
+            </form>
+          {% else %}
+            <a class="app-nav-link" href="{% url 'accounts:login' %}">Sign in</a>
+            <a class="btn btn-sm btn-primary px-3" href="{% url 'accounts:register' %}">Get started</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <main class="container app-main">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} app-alert" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="app-footer">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span>Enterprise File Manager</span>
+        <span class="text-body-secondary">Private, owner-scoped file operations</span>
+      </div>
+    </footer>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

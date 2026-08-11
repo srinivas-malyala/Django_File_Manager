@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Django runtime artifacts
+db.sqlite3
+staticfiles/
+uploads/*
+!uploads/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# Local configuration and editor files
+.env
+.DS_Store
+.idea/
+.vscode/
+
+# custom
+Enterprise File Manager Console.md

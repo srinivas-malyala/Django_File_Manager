@@ -1,0 +1,63 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Search Files | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <div class="page-eyebrow">Discovery</div>
+      <h1 class="page-title">Search files</h1>
+      <p class="page-subtitle">Combine filters to find exactly what you need in your private collection.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'user_console:file_upload' %}">Upload File</a>
+  </div>
+
+  <form class="card card-body mb-4" method="get">
+    <input type="hidden" name="view" value="{{ view_mode }}">
+    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="row g-3">
+      {% for field in form %}
+        <div class="col-sm-6 col-lg-4">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <button class="btn btn-primary" type="submit">Search</button>
+      <a class="btn btn-outline-secondary" href="{% url 'user_console:file_advanced' %}">Clear filters</a>
+    </div>
+  </form>
+
+  <div
+    class="mb-3"
+    data-live-search
+    data-search-url="{% url 'user_console:ajax_search' %}"
+  >
+    <div class="small text-secondary" aria-live="polite" data-live-search-status></div>
+    <ul class="list-group mt-2 d-none" data-live-search-results></ul>
+  </div>
+
+  <form method="post" action="{% url 'user_console:file_batch' %}">
+    {% csrf_token %}
+    <div class="batch-toolbar">
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-secondary">{% if paginator %}{{ paginator.count }} file{{ paginator.count|pluralize }}{% endif %}</span>
+        <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="delete">Delete selected</button>
+        <button class="btn btn-sm btn-outline-primary" type="submit" name="action" value="download">Download selected</button>
+      </div>
+      <div class="btn-group" role="group" aria-label="File display mode">
+        <a class="btn btn-sm btn-outline-primary{% if view_mode == 'list' %} active{% endif %}" href="?{{ list_view_query }}">List</a>
+        <a class="btn btn-sm btn-outline-primary{% if view_mode == 'grid' %} active{% endif %}" href="?{{ grid_view_query }}">Grid</a>
+      </div>
+    </div>
+    {% include "components/file_collection.html" %}
+  </form>
+  {% include "components/file_pagination.html" %}
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'console/js/file-search.js' %}" defer></script>
+{% endblock %}

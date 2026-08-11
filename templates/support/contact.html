@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+
+{% block title %}Contact support | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header"><div><div class="page-eyebrow">Support</div><h1 class="page-title">Contact support</h1><p class="page-subtitle">Get help with account or file-access issues.</p></div></div>
+  <div class="card support-callout"><div class="card-body p-lg-5">
+    <span class="auth-icon">?</span>
+    <h2 class="h4">Contact your File Manager administrator</h2>
+    <p class="text-body-secondary">Your organization’s administrator can assist with account or file-access requests.</p>
+    <div class="alert alert-warning">Never include passwords or password-reset links in a support request.</div>
+    <a class="btn btn-outline-secondary" href="{% url 'user_console:support_help' %}">View help topics</a>
+  </div></div>
+{% endblock %}

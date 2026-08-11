@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+
+{% block title %}Sign in | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="auth-shell">
+  <div class="row justify-content-center w-100 mx-0">
+    <div class="col-md-6 col-lg-5">
+      <div class="card auth-card">
+        <div class="card-body">
+          <div class="auth-icon">→</div>
+          <div class="page-eyebrow">Welcome back</div>
+          <h1 class="h2 mb-2">Sign in</h1>
+          <p class="text-body-secondary mb-4">Continue to your private file workspace.</p>
+          <form method="post">
+            {% csrf_token %}
+            {% include "auth/form_fields.html" %}
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+            <button class="btn btn-primary" type="submit">Sign in</button>
+            <a class="btn btn-link" href="{% url 'accounts:password_reset_request' %}">Forgot password?</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock %}

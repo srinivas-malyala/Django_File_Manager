@@ -1,0 +1,38 @@
+{% extends "base/base.html" %}
+
+{% block title %}{{ file.original_filename }} | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div class="d-flex align-items-center gap-3">
+      <span class="file-type-icon">{{ file.file_type|upper }}</span>
+      <div>
+        <div class="page-eyebrow">File details</div>
+        <h1 class="page-title text-break">{{ file.original_filename }}</h1>
+        <p class="page-subtitle">Uploaded {{ file.upload_date|date:"M j, Y · H:i" }}</p>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-outline-primary" href="{% url 'user_console:file_preview' file.id %}">Preview</a>
+      <a class="btn btn-primary" href="{% url 'user_console:file_download' file.id %}">Download</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <dl class="row detail-list mb-4 gy-2">
+        <dt class="col-sm-4">Type</dt><dd class="col-sm-8">{{ file.file_type|upper }}</dd>
+        <dt class="col-sm-4">Size</dt><dd class="col-sm-8">{{ file.get_file_size_display }}</dd>
+        <dt class="col-sm-4">MIME type</dt><dd class="col-sm-8">{{ file.mime_type|default:"Unknown" }}</dd>
+        <dt class="col-sm-4">Uploaded</dt><dd class="col-sm-8">{{ file.upload_date|date:"Y-m-d H:i T" }}</dd>
+        <dt class="col-sm-4">Description</dt><dd class="col-sm-8">{{ file.description|default:"No description" }}</dd>
+      </dl>
+      <div class="border-top pt-4">
+      <form method="post" action="{% url 'user_console:file_delete' file.id %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-danger" type="submit">Delete File</button>
+      </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

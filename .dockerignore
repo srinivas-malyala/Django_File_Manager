@@ -1,0 +1,21 @@
+.git
+.gitignore
+.dockerignore
+.env
+.venv
+venv
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+.coverage
+htmlcov
+db.sqlite3
+staticfiles
+uploads
+logs
+.DS_Store
+.idea
+.vscode
+tests
+Enterprise File Manager Console.md

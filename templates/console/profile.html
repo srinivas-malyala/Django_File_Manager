@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+
+{% block title %}Profile | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div><div class="page-eyebrow">Account</div><h1 class="page-title">Profile</h1><p class="page-subtitle">Review your identity and security settings.</p></div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3 mb-4"><span class="profile-avatar">{{ user.username|first|upper }}</span><div><h2 class="h4 mb-1">{{ user.get_full_name|default:user.username }}</h2><p class="text-body-secondary mb-0">{{ user.email }}</p></div></div>
+          <dl class="row detail-list mb-4 gy-2">
+            <dt class="col-sm-4">Username</dt><dd class="col-sm-8">{{ user.username }}</dd>
+            <dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ user.email }}</dd>
+            <dt class="col-sm-4">Name</dt><dd class="col-sm-8">{{ user.get_full_name|default:"Not provided" }}</dd>
+          </dl>
+          <a class="btn btn-primary" href="{% url 'accounts:password_change' %}">Change password</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

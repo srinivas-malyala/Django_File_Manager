@@ -1,0 +1,73 @@
+{% extends "base/base.html" %}
+
+{% block title %}Dashboard | Enterprise File Manager{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <div class="page-eyebrow">Personal workspace</div>
+      <h1 class="page-title">Welcome, {{ user.get_full_name|default:user.username }}</h1>
+      <p class="page-subtitle">Here is a quick look at your private file collection.</p>
+    </div>
+    <a class="btn btn-primary" aria-label="Upload File" href="{% url 'user_console:file_upload' %}">Upload file</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6">
+      <div class="card stat-card h-100">
+        <div class="card-body">
+          <div class="stat-label">Total files</div>
+          <div class="stat-value">{{ total_files }}</div>
+          <div class="text-body-secondary small">Items in your private workspace</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card stat-card h-100">
+        <div class="card-body">
+          <div class="stat-label">Storage used</div>
+          <div class="stat-value">{{ total_storage|filesizeformat }}</div>
+          <div class="text-body-secondary small">Across every uploaded file</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="h5 mb-1">Recent files</h2>
+        <p class="text-body-secondary small mb-0">Your latest uploads</p>
+      </div>
+      <a class="btn btn-sm btn-outline-secondary" href="{% url 'user_console:file_list' %}">View all</a>
+    </div>
+    <div class="list-group list-group-flush">
+      {% for file in recent_files %}
+        <a class="list-group-item list-group-item-action d-flex align-items-center gap-3" href="{% url 'user_console:file_detail' file.id %}">
+          <span class="file-type-icon">{{ file.file_type|upper }}</span>
+          <span class="flex-grow-1 text-break">
+            <span class="d-block fw-semibold text-dark">{{ file.original_filename }}</span>
+            <span class="small text-body-secondary">{{ file.upload_date|date:"M j, Y · H:i" }}</span>
+          </span>
+          <span class="text-secondary text-nowrap">{{ file.get_file_size_display }}</span>
+        </a>
+      {% empty %}
+        <div class="empty-state">
+          <div class="empty-state-mark">+</div>
+          <h3 class="h5">No files uploaded yet</h3>
+          <p>Start your collection with a validated private upload.</p>
+          <a class="btn btn-primary" href="{% url 'user_console:file_upload' %}">Upload your first file</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <section aria-labelledby="quick-actions-heading">
+    <h2 class="h5 mb-3" id="quick-actions-heading">Quick actions</h2>
+    <div class="row g-3">
+      <div class="col-md-4"><a class="card workflow-card h-100 text-decoration-none" href="{% url 'user_console:file_upload' %}"><div class="card-body"><span class="badge text-bg-primary mb-3">Upload</span><h3 class="h5">Add a file</h3><p class="text-body-secondary mb-0">Store new content securely.</p></div></a></div>
+      <div class="col-md-4"><a class="card workflow-card h-100 text-decoration-none" aria-label="Browse Files" href="{% url 'user_console:file_list' %}"><div class="card-body"><span class="badge text-bg-success mb-3">Browse</span><h3 class="h5">Browse files</h3><p class="text-body-secondary mb-0">Open your complete collection.</p></div></a></div>
+      <div class="col-md-4"><a class="card workflow-card h-100 text-decoration-none" aria-label="Search Files" href="{% url 'user_console:file_search' %}"><div class="card-body"><span class="badge text-bg-info mb-3">Search</span><h3 class="h5">Find a file</h3><p class="text-body-secondary mb-0">Use advanced filters and sorting.</p></div></a></div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base/base.html" %}
+
+{% block title %}Enterprise File Manager Console{% endblock %}
+
+{% block content %}
+  <section class="landing-hero text-white p-4 p-md-5 mb-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <span class="badge rounded-pill text-bg-primary mb-3">Secure private workspace</span>
+        <h1 class="display-5 fw-semibold mb-3">Your files, organized and protected.</h1>
+        <p class="lead text-white-50 mb-4">
+          Upload, search, preview, download, and manage your files through one owner-scoped workspace.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          {% if user.is_authenticated %}
+            <a class="btn btn-primary btn-lg" href="{% url 'user_console:dashboard' %}">Open dashboard</a>
+            <a class="btn btn-outline-light btn-lg" href="{% url 'user_console:file_upload' %}">Upload a file</a>
+          {% else %}
+            <a class="btn btn-primary btn-lg" href="{% url 'accounts:login' %}">Sign in</a>
+            <a class="btn btn-outline-light btn-lg" href="{% url 'accounts:register' %}">Create an account</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-panel p-4">
+          {% if user.is_authenticated %}
+            <p class="text-uppercase small fw-semibold text-primary mb-2">Welcome back</p>
+            <h2 class="h4 mb-1">{{ user.get_full_name|default:user.username }}</h2>
+            <p class="text-body-secondary mb-4">Continue managing your private collection.</p>
+            <div class="d-grid gap-2">
+              <a class="btn btn-outline-primary" href="{% url 'user_console:file_list' %}">Browse files</a>
+              <a class="btn btn-outline-primary" href="{% url 'user_console:file_advanced' %}">Search and filter</a>
+              <a class="btn btn-outline-secondary" href="{% url 'user_console:profile' %}">Account profile</a>
+            </div>
+          {% else %}
+            <p class="text-uppercase small fw-semibold text-primary mb-2">Get started</p>
+            <h2 class="h4">A simple, secure workflow</h2>
+            <ol class="mb-0 ps-3">
+              <li class="mb-2">Create your private account.</li>
+              <li class="mb-2">Upload a validated file.</li>
+              <li>Manage it from your personal console.</li>
+            </ol>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if user.is_authenticated %}
+    <section aria-labelledby="workspace-actions" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0" id="workspace-actions">Workspace actions</h2>
+        <span class="text-body-secondary">Signed in as {{ user.username }}</span>
+      </div>
+      <div class="row g-3">
+        <div class="col-sm-6 col-xl-3">
+          <a class="card file-card h-100 text-decoration-none" href="{% url 'user_console:file_upload' %}">
+            <div class="card-body">
+              <span class="badge text-bg-primary mb-3">Upload</span>
+              <h3 class="h5 text-dark">Add a new file</h3>
+              <p class="text-body-secondary mb-0">Validate and store content in your private collection.</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <a class="card file-card h-100 text-decoration-none" href="{% url 'user_console:file_list' %}">
+            <div class="card-body">
+              <span class="badge text-bg-success mb-3">Browse</span>
+              <h3 class="h5 text-dark">View your files</h3>
+              <p class="text-body-secondary mb-0">Open metadata, preview supported formats, or download securely.</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <a class="card file-card h-100 text-decoration-none" href="{% url 'user_console:file_advanced' %}">
+            <div class="card-body">
+              <span class="badge text-bg-info mb-3">Search</span>
+              <h3 class="h5 text-dark">Find content quickly</h3>
+              <p class="text-body-secondary mb-0">Filter by name, type, MIME, date, size, and sort order.</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <a class="card file-card h-100 text-decoration-none" href="{% url 'user_console:dashboard' %}">
+            <div class="card-body">
+              <span class="badge text-bg-secondary mb-3">Overview</span>
+              <h3 class="h5 text-dark">Review activity</h3>
+              <p class="text-body-secondary mb-0">See storage usage, file totals, recent items, and quick actions.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <section aria-labelledby="authentication-workflow" class="mb-5">
+      <div class="text-center mb-4">
+        <h2 class="h3" id="authentication-workflow">From sign-in to file management</h2>
+        <p class="text-body-secondary">Every operation stays tied to the authenticated owner.</p>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card workflow-card h-100">
+            <div class="card-body">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-bold mb-3" style="width: 2.5rem; height: 2.5rem">1</span>
+              <h3 class="h5">Authenticate</h3>
+              <p class="text-body-secondary mb-0">Register or sign in with Django's protected account workflow.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card workflow-card h-100">
+            <div class="card-body">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-bold mb-3" style="width: 2.5rem; height: 2.5rem">2</span>
+              <h3 class="h5">Upload and organize</h3>
+              <p class="text-body-secondary mb-0">Files are validated, renamed safely, and stored outside public static content.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card workflow-card h-100">
+            <div class="card-body">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-bold mb-3" style="width: 2.5rem; height: 2.5rem">3</span>
+              <h3 class="h5">Search and operate</h3>
+              <p class="text-body-secondary mb-0">Preview, download, batch, and delete only the files owned by your account.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="row g-4 align-items-center border-top pt-4" aria-labelledby="security-summary">
+    <div class="col-lg-8">
+      <h2 class="h4" id="security-summary">Private by default</h2>
+      <p class="text-body-secondary mb-lg-0">
+        File access is authenticated and owner-scoped. Uploads are size, extension, filename, and MIME validated;
+        downloads and previews pass through authorization-aware application views.
+      </p>
+    </div>
+    <div class="col-lg-4 text-lg-end">
+      {% if user.is_authenticated %}
+        <a class="btn btn-outline-dark" href="{% url 'user_console:support_help' %}">View help</a>
+      {% else %}
+        <a class="btn btn-outline-dark" href="{% url 'accounts:login' %}">Continue to sign in</a>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

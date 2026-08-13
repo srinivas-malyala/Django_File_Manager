@@ -1,0 +1,11 @@
+fastapi>=0.116,<1
+uvicorn[standard]>=0.35,<1
+SQLAlchemy>=2.0,<2.1
+PyJWT>=2.10,<3
+pwdlib[argon2]>=0.2,<1
+python-multipart>=0.0.20,<1
+python-magic>=0.4.27,<0.5
+
+# Test client
+httpx>=0.28,<1
+pytest>=8,<10

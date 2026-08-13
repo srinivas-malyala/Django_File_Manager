@@ -2,6 +2,8 @@
 
 A production-ready, security-focused multi-user file management application built with Django and Django REST Framework. It provides a responsive browser console and a JWT-enabled REST API over the same owner-scoped storage and query services.
 
+The repository also includes an independent [FastAPI service](fastapi_service/README.md) implementing JWT authentication and owner-scoped file operations with SQLAlchemy. It runs separately on port `8001` by default and maintains its own database and private upload directory.
+
 The completed implementation includes authentication, private uploads, search and filtering, safe previews, batch operations, password reset, administrative statistics, health checks, structured logging, PostgreSQL support, Gunicorn, and a non-root Docker image.
 
 
@@ -384,6 +386,7 @@ Production requires PostgreSQL, durable private media storage, SMTP for password
 ├── core/                     Health, discovery, statistics, errors, security, logs
 ├── django_filemanagement/    Project settings, URLs, ASGI, and WSGI
 ├── files/                    Models, validation, storage, search, preview, REST API
+├── fastapi_service/          Standalone FastAPI auth and private-file API
 ├── user_console/             Session-authenticated HTML console and AJAX views
 ├── templates/                Auth, console, support, component, and error templates
 ├── static/                   Source JavaScript, CSS, and image assets
@@ -395,6 +398,5 @@ Production requires PostgreSQL, durable private media storage, SMTP for password
 ├── DEPLOYMENT.md             Production procedure and checklist
 └── SECURITY_REVIEW.md        Security findings and controls
 ```
-
 
 

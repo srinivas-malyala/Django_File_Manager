@@ -315,7 +315,7 @@ API metadata never includes the private storage path or owner-controlled ownersh
 - Production logs redact reset URLs, bearer credentials, passwords, secrets, and common API-key fields.
 - Production defaults enable HTTPS redirects, secure cookies, HSTS, manifest static files, database connection health checks, and JSON logs.
 
-See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the adversarial review and [DEPLOYMENT.md](DEPLOYMENT.md) for proxy, HSTS, storage, and production controls.
+See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the adversarial review, [DEPLOYMENT.md](DEPLOYMENT.md) for the production checklist, and [TLS_SETUP.md](TLS_SETUP.md) for the anonymized Django and FastAPI HTTPS procedure.
 
 ## Testing and quality checks
 
@@ -396,7 +396,7 @@ Production requires PostgreSQL, durable private media storage, SMTP for password
 ├── requirements-prod.txt     Production runtime dependencies
 ├── requirements.txt          Development and CI dependencies
 ├── DEPLOYMENT.md             Production procedure and checklist
+├── TLS_SETUP.md              Anonymized Django and FastAPI HTTPS guide
 └── SECURITY_REVIEW.md        Security findings and controls
 ```
-
 
